@@ -1,5 +1,5 @@
 import { fetchProducts } from '@/lib/api';
-import { ProductListing } from './ProductListing';
+import ProductListingClient from '@/components/ProductListingClient';
 import { Suspense } from 'react';
 import { SkeletonCard } from '@/components/SkeletonCard';
 
@@ -22,7 +22,7 @@ export default async function ProductsPage() {
 
     return (
       <Suspense fallback={<SkeletonGrid />}>
-        <ProductListing products={products} />
+        <ProductListingClient initialProducts={products} />
       </Suspense>
     );
   } catch (error) {

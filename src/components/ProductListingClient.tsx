@@ -7,25 +7,28 @@ import { SearchBar } from '@/components/SearchBar';
 import { CategoryFilter } from '@/components/CategoryFilter';
 import { FavoritesToggle } from '@/components/FavoritesToggle';
 import { useFavorites } from '@/hooks/useFavorites';
-import { getUniqueCategories } from '@/lib/api';
 
-interface ProductListingProps {
-  products: Product[];
+interface ProductListingClientProps {
+  initialProducts: Product[];
 }
 
-export function ProductListing({ products }: ProductListingProps) {
+export default function ProductListingClient({ initialProducts }: ProductListingClientProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
 
   const { favorites, isFavorite, toggleFavorite, isHydrated } = useFavorites();
 
-  const categories = useMemo(() => getUniqueCategories(products), [products]);
+  const categories = useMemo(() => {
+    if (!initialProducts || initialProducts.length === 0) return [];
+    const cats = new Set(initialProducts.map(p => p.category));
+    return Array.from(cats).sort();
+  }, [initialProducts]);
 
   const filteredProducts = useMemo(() => {
-    if (!isHydrated) return [];
+    if (!isHydrated || !initialProducts) return [];
 
-    let filtered = products;
+    let filtered = initialProducts;
 
     // Filter by search query
     if (searchQuery) {
@@ -44,7 +47,7 @@ export function ProductListing({ products }: ProductListingProps) {
     }
 
     return filtered;
-  }, [products, searchQuery, selectedCategory, showFavoritesOnly, isFavorite, isHydrated]);
+  }, [initialProducts, searchQuery, selectedCategory, showFavoritesOnly, isFavorite, isHydrated]);
 
   const handleSearchChange = useCallback((value: string) => {
     setSearchQuery(value);
@@ -67,7 +70,7 @@ export function ProductListing({ products }: ProductListingProps) {
       <div className="space-y-2 sm:space-y-3">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Browse Products</h1>
         <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-          Explore our collection of {products.length} products
+          Explore our collection of {initialProducts?.length || 0} products
         </p>
       </div>
 
