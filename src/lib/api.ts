@@ -1,40 +1,46 @@
 import { Product } from '@/types/product';
 
-const API_BASE = 'https://fakestoreapi.com';
+const API_BASE_URL = 'https://fakestoreapi.com';
 
 export async function fetchProducts(): Promise<Product[]> {
   try {
-    const response = await fetch(`${API_BASE}/products`, {
+    const res = await fetch(`${API_BASE_URL}/products`, {
       cache: 'no-store',
+      headers: {
+        Accept: 'application/json',
+      },
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.status} ${response.statusText}`);
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} ${res.statusText}`);
     }
 
-    const products: Product[] = await response.json();
-    return products;
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error('Error fetching products:', error);
-    throw new Error('Unable to load products. Please check your connection and try again.');
+    console.error('Failed to fetch products:', error);
+    throw new Error('Failed to fetch products. Please try again later.');
   }
 }
 
 export async function fetchProduct(id: string | number): Promise<Product> {
   try {
-    const response = await fetch(`${API_BASE}/products/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/products/${id}`, {
       cache: 'no-store',
+      headers: {
+        Accept: 'application/json',
+      },
     });
 
-    if (!response.ok) {
-      throw new Error(`Product not found: ${response.status}`);
+    if (!res.ok) {
+      throw new Error(`API Error: ${res.status} ${res.statusText}`);
     }
 
-    const product: Product = await response.json();
-    return product;
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.error(`Error fetching product ${id}:`, error);
-    throw new Error('Unable to load product details. Please try again.');
+    console.error(`Failed to fetch product ${id}:`, error);
+    throw new Error('Failed to fetch product details. Please try again later.');
   }
 }
 
