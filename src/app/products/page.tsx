@@ -29,6 +29,13 @@ export default async function ProductsPage() {
       </div>
     );
   }
-
-  return <ProductListingClient initialProducts={products} />;
+  return (
+    <div className="min-h-screen bg-slate-950">
+      <div className="py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <ProductListingClient initialProducts={products} />
+        </div>
+      </div>
+    </div>
+  );
 }

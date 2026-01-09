@@ -15,7 +15,7 @@ export function useFavorites() {
       const favoriteIds = stored ? JSON.parse(stored) : [];
       setFavorites(new Set(favoriteIds));
     } catch (error) {
-      console.error('Error loading favorites:', error);
+      // Silently fail - localStorage might not be available
     }
     setIsHydrated(true);
   }, []);
@@ -27,7 +27,7 @@ export function useFavorites() {
     try {
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites)));
     } catch (error) {
-      console.error('Error saving favorites:', error);
+      // Silently fail - localStorage might not be available
     }
   }, [favorites, isHydrated]);
 
