@@ -62,55 +62,57 @@ export default function ProductListingClient({ initialProducts }: ProductListing
   }, []);
 
   if (!isHydrated) {
-    return <div className="text-center py-8 text-gray-500">Loading...</div>;
+    return <div className="min-h-screen bg-slate-950 py-8 px-4 sm:px-6 lg:px-8 flex items-center justify-center text-slate-400">Loading...</div>;
   }
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      <div className="space-y-2 sm:space-y-3">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Browse Products</h1>
-        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
-          Explore our collection of {initialProducts?.length || 0} products
-        </p>
-      </div>
-
-      {/* Filters */}
-      <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="lg:col-span-2">
-          <SearchBar onSearchChange={handleSearchChange} />
+    <div className="min-h-screen bg-slate-950 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+        <div className="space-y-2 sm:space-y-3">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">Browse Products</h1>
+          <p className="text-sm sm:text-base text-slate-400">
+            Explore our collection of {initialProducts?.length || 0} products
+          </p>
         </div>
-        <CategoryFilter
-          categories={categories}
-          selectedCategory={selectedCategory}
-          onCategoryChange={handleCategoryChange}
-        />
-        <FavoritesToggle
-          showFavoritesOnly={showFavoritesOnly}
-          onToggleShowFavoritesOnly={handleToggleFavoritesOnly}
-          favoritesCount={favorites.size}
-        />
-      </div>
 
-      {/* Empty state for favorites */}
-      {showFavoritesOnly && filteredProducts.length === 0 && favorites.size === 0 && (
-        <div className="flex min-h-[300px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50/50 dark:border-slate-600 dark:bg-slate-900/30 p-6 sm:p-8">
-          <div className="text-center">
-            <p className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">No favorites yet</p>
-            <p className="mt-1 text-sm sm:text-base text-slate-500 dark:text-slate-400">
-              Click the heart icon to add products to your favorites
-            </p>
+        {/* Filters */}
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-2">
+            <SearchBar onSearchChange={handleSearchChange} />
           </div>
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={handleCategoryChange}
+          />
+          <FavoritesToggle
+            showFavoritesOnly={showFavoritesOnly}
+            onToggleShowFavoritesOnly={handleToggleFavoritesOnly}
+            favoritesCount={favorites.size}
+          />
         </div>
-      )}
 
-      {/* Products grid */}
-      {filteredProducts.length > 0 && (
-        <ProductGrid
-          products={filteredProducts}
-          favorites={favorites}
-          onToggleFavorite={toggleFavorite}
-        />
-      )}
+        {/* Empty state for favorites */}
+        {showFavoritesOnly && filteredProducts.length === 0 && favorites.size === 0 && (
+          <div className="flex min-h-[300px] items-center justify-center rounded-lg border-2 border-dashed border-slate-300 bg-slate-50/50 dark:border-slate-600 dark:bg-slate-900/30 p-6 sm:p-8">
+            <div className="text-center">
+              <p className="text-lg sm:text-xl font-semibold text-slate-900 dark:text-white">No favorites yet</p>
+              <p className="mt-1 text-sm sm:text-base text-slate-500 dark:text-slate-400">
+                Click the heart icon to add products to your favorites
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Products grid */}
+        {filteredProducts.length > 0 && (
+          <ProductGrid
+            products={filteredProducts}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+          />
+        )}
+      </div>
     </div>
   );
 }
