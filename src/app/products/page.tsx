@@ -17,23 +17,18 @@ function SkeletonGrid() {
 }
 
 export default async function ProductsPage() {
-  try {
-    const products = await fetchProducts();
+  const products = await fetchProducts();
 
-    if (!products || products.length === 0) {
-      return (
-        <div className="min-h-screen bg-slate-950 py-8 px-4">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-3xl font-bold text-white mb-4">No Products Available</h1>
-            <p className="text-slate-400">Unable to load products at this time. Please refresh the page.</p>
-          </div>
+  if (!products || products.length === 0) {
+    return (
+      <div className="min-h-screen bg-slate-950 py-8 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h1 className="text-3xl font-bold text-white mb-4">No Products Available</h1>
+          <p className="text-slate-400">Unable to load products at this time. Please refresh the page.</p>
         </div>
-      );
-    }
-
-    return <ProductListingClient initialProducts={products} />;
-  } catch (error) {
-    console.error('ProductsPage error:', error);
-    throw error;
+      </div>
+    );
   }
+
+  return <ProductListingClient initialProducts={products} />;
 }

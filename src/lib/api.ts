@@ -18,7 +18,6 @@ export async function fetchProducts(): Promise<Product[]> {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error('Failed to fetch products:', error);
     throw new Error('Failed to fetch products. Please try again later.');
   }
 }
@@ -39,7 +38,6 @@ export async function fetchProduct(id: string | number): Promise<Product> {
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error(`Failed to fetch product ${id}:`, error);
     throw new Error('Failed to fetch product details. Please try again later.');
   }
 }
